@@ -34,6 +34,13 @@ unittestresults2.out: unittest2
 	gcc -o unittest2 dominion.c rngs.c interface.c unittest2.c $(CFLAGS)
 	./unittest2 &> unittestresults2.out
 	gcov dominion.c -b >> unittestresults2.out
+unittest3: unittest3.c dominion.o interface.o
+	gcc -o unittest3 dominion.c rngs.c interface.c unittest3.c $(CFLAGS)
+unittestresults3.out: unittest3
+	echo "unittest3.c:" >> unittestresults3.out
+	gcc -o unittest3 dominion.c rngs.c interface.c unittest3.c $(CFLAGS)
+	./unittest3 &> unittestresults3.out
+	gcov dominion.c -b >> unittestresults3.out
 testcard1: testcard1.c dominion.o rngs.o
 	gcc -o testcard1 -g  testcard1.c dominion.o rngs.o $(CFLAGS)
 testcard1results.out:  testcard1
@@ -42,6 +49,7 @@ testcard1results.out:  testcard1
 	cat dominion.c.gcov >> testcard1results.out
 # 	gcov -b refactor.c >> testcard1.out
 	cat refactor.c.gcov >> testcard1results.out
+
 
 
 player: player.c interface.o

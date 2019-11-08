@@ -269,7 +269,7 @@ int main(int argc, char** argv)
     } else {
         printf("\n\tFAILURE: Test failed and buy was not added to buy count.\n");
     }
-    printf("\n\t----------------------------------------\n");
+
 
 
     return 0;
