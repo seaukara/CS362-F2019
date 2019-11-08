@@ -704,7 +704,9 @@ int baronEffect (int choice1, struct gameState *state) {
                     printf("No estate cards in your hand, invalid choice\n");
                     printf("Must gain an estate if there are any\n");
                 }
+
                 if (supplyCount(estate, state) > 0) {
+                    printf("here");
                     gainCard(estate, state, 0, currentPlayer);
 
                     state->supplyCount[estate]--;//Decrement estates
@@ -724,18 +726,20 @@ int baronEffect (int choice1, struct gameState *state) {
     else {
         if (supplyCount(estate, state) > 0) {
             gainCard(estate, state, 0, currentPlayer);//Gain an estate
-
-            state->supplyCount[estate]--;//Decrement Estates
+//            printf("supply count: %d\n", state->supplyCount[estate]);
+//            state->supplyCount[estate]--;//Decrement Estates
+//            printf("supply count: %d\n", state->supplyCount[estate]);
             if (supplyCount(estate, state) == 0) {
                 isGameOver(state);
             }
+        } else {
+            return 1;
         }
     }
     return 0;
 }
 
-int minionEffect (int choice1, int choice2, struct gameState *state, int
-handPos) {
+int minionEffect (int choice1, int choice2, struct gameState *state, int handPos) {
     int i, j;
     int currentPlayer = whoseTurn(state);
 
@@ -764,6 +768,7 @@ handPos) {
             drawCard(currentPlayer, state);
         }
 
+
         //other players discard hand and redraw if hand size > 4
         for (i = 0; i < state->numPlayers; i++)
         {
@@ -790,8 +795,8 @@ handPos) {
     return 0;
 }
 
-int ambassadorEffect(int choice1, int choice2, struct gameState *state, int
-handPos) {
+int ambassadorEffect(int choice1, int choice2, struct gameState *state, int handPos)
+{
     int i;
     int j = 0;        //used to check if player has enough cards to discard
     int currentPlayer = whoseTurn(state) + 1;
