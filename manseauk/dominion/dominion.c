@@ -859,11 +859,17 @@ int tributeEffect(struct gameState *state) {
     if ((state->discardCount[nextPlayer] + state->deckCount[nextPlayer]) <= 1) {
         if (state->deckCount[nextPlayer] > 0) {
             tributeRevealedCards[0] = state->deck[nextPlayer][state->deckCount[nextPlayer]-1];
+            state->discard[nextPlayer][state->discardCount[nextPlayer]-1] = tributeRevealedCards[0];
+            state->discardCount[nextPlayer]++;
             state->deckCount[nextPlayer]--;
+
+
+
         }
         else if (state->discardCount[nextPlayer] > 0) {
             tributeRevealedCards[0] = state->discard[nextPlayer][state->discardCount[nextPlayer]-1];
             state->discardCount[nextPlayer]--;
+
         }
         else {
             //No Card to Reveal
@@ -886,9 +892,14 @@ int tributeEffect(struct gameState *state) {
         }
         tributeRevealedCards[0] = state->deck[nextPlayer][state->deckCount[nextPlayer]-1];
         state->deck[nextPlayer][state->deckCount[nextPlayer]--] = -1;
+        state->discard[nextPlayer][state->discardCount[nextPlayer]] = tributeRevealedCards[0];
+        state->discardCount[nextPlayer]++;
         state->deckCount[nextPlayer]--;
         tributeRevealedCards[1] = state->deck[nextPlayer][state->deckCount[nextPlayer]-1];
         state->deck[nextPlayer][state->deckCount[nextPlayer]--] = -1;
+
+        state->discard[nextPlayer][state->discardCount[nextPlayer]] = tributeRevealedCards[1];
+        state->discardCount[nextPlayer]++;
         state->deckCount[nextPlayer]--;
     }
 
@@ -897,8 +908,12 @@ int tributeEffect(struct gameState *state) {
         state->playedCardCount++;
         tributeRevealedCards[1] = -1;
     }
-
-    for (i = 0; i <= 2; i ++) {
+    char name[500];
+    cardNumToName(tributeRevealedCards[0], name);
+//    printf("\n\tInner Tribute card: %s", name);
+    cardNumToName(tributeRevealedCards[1], name);
+//    printf("\n\tInner Tribute card: %s", name);
+    for (i = 0; i < 2; i ++) {
         if (tributeRevealedCards[i] == copper || tributeRevealedCards[i] == silver || tributeRevealedCards[i] == gold) { //Treasure cards
             state->coins += 2;
 
@@ -909,7 +924,10 @@ int tributeEffect(struct gameState *state) {
             drawCard(currentPlayer, state);
         }
         else { //Action Card
-            state->numActions += 2;
+//            printf("\n\tInner Action count before: %d", state->numActions);
+
+            state->numActions = state->numActions +2;
+//            printf("\n\tInner Action count after: %d", state->numActions);
         }
     }
 
