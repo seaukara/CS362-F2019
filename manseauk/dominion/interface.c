@@ -255,7 +255,7 @@ void printDiscard(int player, struct gameState *game) {
         int card = game->discard[player][discardIndex];
         char name[MAX_STRING_LENGTH];
         cardNumToName(card, name);
-        printf("%-2d %-13s \n", discardIndex, name);
+        printf("%-2d %-13s \n", card, name);
     }
     printf("\n");
 }

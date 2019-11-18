@@ -72,7 +72,7 @@ int initializeGame(int numPlayers, int kingdomCards[10], int randomSeed,
     //set number of Curse cards
     if (numPlayers == 2)
     {
-        state->supplyCount[curse] = 10;
+        state->supplyCount[curse] = 0;
     }
     else if (numPlayers == 3)
     {
@@ -725,7 +725,7 @@ int baronEffect (int choice1, struct gameState *state) {
         if (supplyCount(estate, state) > 0) {
             gainCard(estate, state, 0, currentPlayer);//Gain an estate
 
-            state->supplyCount[estate]--;//Decrement Estates
+//            state->supplyCount[estate] =  state->supplyCount[estate]-1;//Decrement Estates
             if (supplyCount(estate, state) == 0) {
                 isGameOver(state);
             }
@@ -900,15 +900,16 @@ int tributeEffect(struct gameState *state) {
 
     for (i = 0; i <= 2; i ++) {
         if (tributeRevealedCards[i] == copper || tributeRevealedCards[i] == silver || tributeRevealedCards[i] == gold) { //Treasure cards
-            drawCard(currentPlayer, state);
-            drawCard(currentPlayer, state);
+            state->coins += 2;
+
         }
 
         else if (tributeRevealedCards[i] == estate || tributeRevealedCards[i] == duchy || tributeRevealedCards[i] == province || tributeRevealedCards[i] == gardens || tributeRevealedCards[i] == great_hall) { //Victory Card Found
-            state->coins += 2;
+            drawCard(currentPlayer, state);
+            drawCard(currentPlayer, state);
         }
         else { //Action Card
-            state->numActions = 0;
+            state->numActions += 2;
         }
     }
 
